@@ -10,6 +10,7 @@ urlpatterns = [
     path('logout/', views.user_logout, name='user_logout'),
     
     path('change-password/', views.change_password_view, name="change_password"),
+    path('forget-password/', views.forgot_password_view, name="forget_password"),
     
     #otp
     path('request-otp/', views.request_otp_view, name='request_otp'),

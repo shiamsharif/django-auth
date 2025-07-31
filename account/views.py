@@ -37,16 +37,14 @@ def login_view(request):
 
 def register(request):
     if request.method == 'POST':
-        print("--------------------------")
         username = request.POST['username']
         email = request.POST['email']
         password = request.POST['password']
         
         
-
         if User.objects.filter(email=email).exists():
-            return render(request, 'account/register.html', {'error': 'Email already taken'})
-        
+            messages.error(request, "Email already taken")
+            return render(request, 'account/register.html')
     
 
         user = User.objects.create_user(username=username, email=email, password=password)
@@ -54,8 +52,7 @@ def register(request):
         #add utils.py file
         generate_otp(email)
 
-        print("======================")
-        return redirect(f'/verify-otp/email={email}')
+        return redirect(f'/verify-otp/?email={email}')
 
     return render(request, 'account/register.html')
 
@@ -64,6 +61,7 @@ def register(request):
 def user_logout(request):
     logout(request)
     return redirect('home') 
+
 
 @login_required
 def change_password_view(request):
@@ -87,6 +85,7 @@ def change_password_view(request):
     return render(request, 'account/change_password.html')
 
 
+
 def forgot_password_view(request):
     if request.method == 'POST':
         email = request.POST.get('email')
@@ -98,6 +97,7 @@ def forgot_password_view(request):
         else:
             messages.error(request, "No account found with this email.")
     return render(request, 'account/forgot_password.html')
+
 
 
 def reset_password_view(request):
