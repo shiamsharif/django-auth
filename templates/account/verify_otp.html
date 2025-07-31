@@ -1,0 +1,23 @@
+
+{% extends "base.html" %}
+{% block title %}Verify OTP{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h2>Email Verification</h2>
+<form method="post">
+    {% csrf_token %}
+    <p>OTP sent to {{ email }}</p>
+    <input type="text" name="otp" maxlength="6" required>
+    <button type="submit">Verify OTP</button>
+</form>
+
+  {% if messages %}
+    <ul>
+      {% for message in messages %}
+        <li>{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+</div>
+{% endblock %}
